@@ -15,6 +15,9 @@ class CreatePointsTable extends Migration
     {
         Schema::create('points', function (Blueprint $table) {
             $table->id();
+            $table->string('description')->nullable();
+            $table->float('x_axis');
+            $table->float('y_axis');
             $table->timestamps();
         });
     }
