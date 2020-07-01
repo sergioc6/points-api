@@ -9,6 +9,9 @@ class PointsTest extends TestCase
 {
     const baseUri = '/api/points';
 
+    /**
+     *
+     */
     public function testIndex()
     {
         $response = $this->getJson(self::baseUri);
@@ -42,29 +45,9 @@ class PointsTest extends TestCase
             ]);
     }
 
-    public function testShow()
-    {
-        $response = $this->getJson(self::baseUri . '/8');
-
-        $response
-            ->assertStatus(200)
-            ->assertJson(
-                ['status' => 'success']
-            )
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data' => [
-                    'id',
-                    'description',
-                    'x_axis',
-                    'y_axis',
-                    'created_at',
-                    'updated_at'
-                ]
-            ]);
-    }
-
+    /**
+     * @return mixed
+     */
     public function testCreate()
     {
         $faker = Factory::create();
@@ -92,9 +75,43 @@ class PointsTest extends TestCase
                     'updated_at'
                 ]
             ]);
+
+        $reponseData = json_decode($response->getContent(), true);
+        return $reponseData['data']['id'];
     }
 
-    public function testEdit()
+    /**
+     * @param $id
+     * @depends testCreate
+     */
+    public function testShow($id)
+    {
+        $response = $this->getJson(self::baseUri . '/' . $id);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(
+                ['status' => 'success']
+            )
+            ->assertJsonStructure([
+                'status',
+                'message',
+                'data' => [
+                    'id',
+                    'description',
+                    'x_axis',
+                    'y_axis',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]);
+    }
+
+    /**
+     * @param $id
+     * @depends testCreate
+     */
+    public function testEdit($id)
     {
         $faker = Factory::create();
         $body = [
@@ -102,7 +119,7 @@ class PointsTest extends TestCase
             'x_axis' => $faker->numberBetween(0, 300),
             'y_axis' => $faker->numberBetween(0, 200),
         ];
-        $response = $this->putJson(self::baseUri . '/1', $body);
+        $response = $this->putJson(self::baseUri . '/' . $id, $body);
 
         $response
             ->assertStatus(200)
@@ -123,32 +140,13 @@ class PointsTest extends TestCase
             ]);
     }
 
-    public function testDestroy()
+    /**
+     * @param $id
+     * @depends testCreate
+     */
+    public function testGetNearbyPoints($id)
     {
-        $response = $this->deleteJson(self::baseUri . '/1');
-
-        $response
-            ->assertStatus(200)
-            ->assertJson(
-                ['status' => 'success']
-            )
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data' => [
-                    'id',
-                    'description',
-                    'x_axis',
-                    'y_axis',
-                    'created_at',
-                    'updated_at'
-                ]
-            ]);
-    }
-
-    public function testGetNearbyPoints()
-    {
-        $response = $this->getJson(self::baseUri . '/5/nearby');
+        $response = $this->getJson(self::baseUri . '/' . $id . '/nearby');
 
         $response
             ->assertStatus(200)
@@ -178,6 +176,33 @@ class PointsTest extends TestCase
                                 'updated_at'
                             ],
                         ],
+                ]
+            ]);
+    }
+
+    /**
+     * @param $id
+     * @depends testCreate
+     */
+    public function testDestroy($id)
+    {
+        $response = $this->deleteJson(self::baseUri . '/' . $id);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(
+                ['status' => 'success']
+            )
+            ->assertJsonStructure([
+                'status',
+                'message',
+                'data' => [
+                    'id',
+                    'description',
+                    'x_axis',
+                    'y_axis',
+                    'created_at',
+                    'updated_at'
                 ]
             ]);
     }

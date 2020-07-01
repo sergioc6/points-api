@@ -31,8 +31,8 @@ class PointsNearbyRequest extends FormRequest
     public function rules()
     {
         return [
-            'limit' => 'nullable|numeric|gt:0|max:300|bail',
-            'max_distance' => 'nullable|numeric|gt:0|max:300|bail',
+            'limit' => 'nullable|integer|gt:0|max:30|bail',
+            'max_distance' => 'nullable|integer|gt:0|max:300|bail',
         ];
     }
 
