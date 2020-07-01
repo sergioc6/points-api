@@ -27,6 +27,13 @@ Levantar los servicios
 $ docker-compose up -d
 ```
 
+Ingresar al servicio de la app y ejecutar migraciones y seeders
+
+```sh
+$ docker-compose exec app sh
+$ php artisan migrate:fresh --seed
+```
+
 La aplicación debe ejecutarse en la URL localhost:80
 
 ## API Endopoints
@@ -44,19 +51,16 @@ A continuación se detallan los endpoints de la API:
 
 ## Tests
 
-Want to contribute? Great!
+A continuación se detallarán los pasos para ejecutar los tests de la app.
 
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
+Ingrese al container de la app.
 
-Open your favorite Terminal and run these commands.
-
-First Tab:
 ```sh
-$ node app
+$ docker-compose exec app sh
 ```
 
-Second Tab:
+Ya dentro del containter ejecutar el siguiente comando
+
 ```sh
-$ gulp watch
+$ php artisan test
 ```
