@@ -27,14 +27,26 @@ Levantar los servicios
 $ docker-compose up -d
 ```
 
-Ingresar al servicio de la app y ejecutar migraciones y seeders
+Ingresar al servicio de la app.
 
 ```sh
 $ docker-compose exec app sh
-$ php artisan migrate:fresh --seed
 ```
 
-La aplicación debe ejecutarse en la URL localhost:80
+Ejecutar dependencias de composer
+
+```sh
+/var/www/html# composer install
+/var/www/html# composer dump-autoload
+```
+
+Ejecutar las migraciones y seeders
+
+```sh
+/var/www/html# php artisan migrate:fresh --seed
+```
+
+La aplicación debe ejecutarse en la siguietne URL localhost:80. Asegurese de no estár utilizando el puerto 80 para no tener problemas.
 
 ## API Endopoints
 
