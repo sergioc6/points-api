@@ -9,18 +9,25 @@ Para instalar es necesario contar con los siguientes softwares
 ## Instalación
 
 Clonar el repositorio
-```sh
-$ cd dillinger
-$ npm install -d
-$ node app
-```
-
-For production environments...
 
 ```sh
-$ npm install --production
-$ NODE_ENV=production node app
+$ git clone https://github.com/sergioc6/points-api.git
+$ cd points-api
 ```
+
+Copiar las variables de entorno
+
+```sh
+$ cp .env.example .env
+```
+
+Levantar los servicios
+
+```sh
+$ docker-compose up -d
+```
+
+La aplicación debe ejecutarse en la URL localhost:80
 
 ## API Endopoints
 
@@ -28,12 +35,12 @@ A continuación se detallan los endpoints de la API:
 
 | METHOD | URL | Descripción |
 | ------ | ------ | ------ |
-| GET | localhost/api/points | |
-| GET | localhost/api/points/{id} | |
-| POST | localhost/api/points | |
-| PUT | localhost/api/points/{id} | |
-| DELETE | localhost/api/points/{id} | |
-| GET | localhost/api/points/{id}/nearby | |
+| GET | localhost/api/points | Retorna un listado paginado de puntos |
+| GET | localhost/api/points/{id} | Retorna un punto por su id |
+| POST | localhost/api/points | Crea un nuevo punto |
+| PUT | localhost/api/points/{id} | Modifica un punto existente |
+| DELETE | localhost/api/points/{id} | Elimina un punto existente |
+| GET | localhost/api/points/{id}/nearby | Retorna un listado paginado de puntos cercanos a otro |
 
 ## Tests
 

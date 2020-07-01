@@ -20,21 +20,25 @@ class Point extends Model
         'updated_at' => 'datetime:d-m-Y H:i:s',
     ];
 
-    public static function getNearbyPoints($id, $limit = 15)
+    public static function getNearbyPoints(int $id, float $maxDistance = 50, int $limit = 15)
     {
         return DB::select('
-                SELECT p2.*,
-                       (
-                           sqrt(power(p1.x_axis - p2.x_axis, 2) + power(p1.y_axis - p2.y_axis, 2))
-                       ) AS distance
-                FROM points p1,
-                     points p2
-                WHERE p1.id <> p2.id
-                  AND p1.id = :id
-                ORDER BY distance ASC
-                LIMIT :limit
+                    SELECT p2.*,
+                           (
+                               sqrt(power(p1.x_axis - p2.x_axis, 2) + power(p1.y_axis - p2.y_axis, 2))
+                               ) AS distance
+                    FROM points p1,
+                         points p2
+                    WHERE p1.id <> p2.id
+                      AND p1.id = :id
+                      AND (
+                            sqrt(power(p1.x_axis - p2.x_axis, 2) + power(p1.y_axis - p2.y_axis, 2))
+                          ) < :maxDistance
+                    ORDER BY distance ASC
+                    LIMIT :limit
          ', [
             'id' => $id,
+            'maxDistance' => $maxDistance,
             'limit' => $limit
         ]);
     }

@@ -96,8 +96,9 @@ class PointsController extends Controller
     public function getNearbyPoints(Request $request, $id)
     {
         $limit = $request->get('limit', 15);
+        $maxDistance = $request->get('max_distance', 50);
         $point = Point::findOrFail($id);
-        $nearbyPoints = Point::getNearbyPoints($point->id, $limit);
+        $nearbyPoints = Point::getNearbyPoints($point->id, $maxDistance, $limit);
 
         return $this->successResponse(
             [
