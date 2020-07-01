@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\PointRequest;
+use App\Http\Requests\PointsNearbyRequest;
 use App\Http\Resources\PaginationResource;
 use App\Http\Traits\ResponseTrait;
 use App\Models\Point;
@@ -89,11 +90,11 @@ class PointsController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param PointsNearbyRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getNearbyPoints(Request $request, $id)
+    public function getNearbyPoints(PointsNearbyRequest $request, $id)
     {
         $limit = $request->get('limit', 15);
         $maxDistance = $request->get('max_distance', 50);
